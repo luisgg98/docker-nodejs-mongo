@@ -1,0 +1,35 @@
+############################
+### LUIS  GARCIA GARCES
+### UNIVERSIDAD INTERNACIONAL DE LA RIOJA
+############################
+version: "3"
+services:
+  javascript_app:
+    image: app_contenedores_unir_actividad2:latest
+    container_name: app_actividad2
+    environment:
+      - MONGODB_HOST=mongo_db
+      - MONGODB_PORT=27017
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo_db
+    networks:
+      - backend
+    restart: unless-stopped
+  mongo_db:
+    image: mongo
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  mongo-data:
